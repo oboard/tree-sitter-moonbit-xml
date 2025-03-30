@@ -18,6 +18,9 @@ const
     pipe: 7,
     or_pattern: 6,
     as_pattern: 5,
+    xml_interpolation: 20,
+    xml_fragment: 21,
+    xml_repeat: 22,
   };
 const TYPE_PREC = {
   option: 19,
@@ -345,6 +348,7 @@ module.exports = grammar({
       $.for_expression,
       $.for_in_expression,
       $.try_expression,
+      $.xml_expression,
       $.pipeline_expression,
     ),
 
@@ -1263,6 +1267,84 @@ module.exports = grammar({
     attribute: $ => seq('#', $.attribute_expression),
 
     attributes: $ => repeat1($.attribute),
+
+    xml_expression: $ => seq(
+      $.xml_opening_element,
+      $.xml_content,
+      $.xml_closing_element
+    ),
+
+    xml_opening_element: $ => seq(
+      '<',
+      $.xml_identifier,
+      repeat(seq(
+        $.xml_attribute
+      )),
+      '>'
+    ),
+
+    xml_closing_element: $ => seq(
+      '</',
+      $.xml_identifier,
+      '>'
+    ),
+
+    xml_self_closing_element: $ => seq(
+      '<',
+      $.xml_identifier,
+      repeat(seq(
+        $.xml_attribute
+      )),
+      '/>'
+    ),
+
+    xml_identifier: _ => /[a-zA-Z][a-zA-Z0-9_-]*/,
+
+    xml_attribute: $ => seq(
+      $.xml_attribute_name,
+      '=',
+      $.xml_attribute_value
+    ),
+
+    xml_attribute_name: _ => /[a-zA-Z][a-zA-Z0-9_-]*/,
+
+    xml_attribute_value: $ => choice(
+      seq('"', optional($.xml_attribute_content), '"'),
+      seq("'", optional($.xml_attribute_content), "'")
+    ),
+
+    xml_attribute_content: $ => repeat1(choice(
+      token.immediate(/[^"'{}]+/),
+      $.xml_interpolation
+    )),
+
+    xml_text: $ => prec.left(1, choice(
+      token.immediate(/[^<>{}/\s][^<>{}/]*/),
+      seq(
+        choice(
+          token.immediate(/[^<>{}/\s][^<>{}/]*/),
+          $.xml_interpolation
+        ),
+        repeat(choice(
+          token.immediate(/[^<>{}/][^<>{}/]*/),
+          $.xml_interpolation
+        ))
+      )
+    )),
+
+    xml_interpolation: $ => prec(PREC.xml_interpolation, seq(
+      '{',
+      $.expression,
+      '}'
+    )),
+
+    xml_content: $ => prec.right(PREC.xml_repeat,
+      repeat1(choice(
+        $.xml_expression,
+        $.xml_text,
+        $.xml_self_closing_element
+      ))
+    ),
   },
 });
 
