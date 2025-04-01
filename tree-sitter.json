@@ -1,13 +1,13 @@
 {
   "grammars": [
     {
-      "name": "moonbit",
-      "camelcase": "Moonbit",
-      "scope": "source.mbt",
+      "name": "moonbitxml",
+      "camelcase": "MoonbitXML",
+      "scope": "source.mbtx",
       "path": ".",
       "file-types": [
-        "mbt",
-        "moonbit"
+        "mbx",
+        "moonbitxml"
       ],
       "highlights": "queries/highlights.scm"
     }
