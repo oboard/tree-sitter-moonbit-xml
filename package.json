@@ -9,7 +9,7 @@
   "types": "bindings/node",
   "keywords": [
     "tree-sitter",
-    "moonbit"
+    "moonbitxml"
   ],
   "files": [
     "grammar.js",

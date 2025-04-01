@@ -190,7 +190,7 @@ window.initializePlayground = async (opts) => {
   playgroundContainer.style.visibility = "visible";
 
   async function handleLanguageChange() {
-    const newLanguageName = languageSelect.value ?? "moonbit";
+    const newLanguageName = languageSelect.value ?? "moonbitxml";
     if (!languagesByName[newLanguageName]) {
       const url = `${LANGUAGE_BASE_URL}/tree-sitter-${newLanguageName}.wasm`;
       languageSelect.disabled = true;

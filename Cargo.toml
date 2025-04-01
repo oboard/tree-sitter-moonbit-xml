@@ -1,5 +1,5 @@
 [package]
-name = "tree-sitter-moonbit"
+name = "tree-sitter-moonbitxml"
 description = "Tree-sitter grammar for Moonbit"
 version = "0.1.0"
 license = "Apache-2.0"

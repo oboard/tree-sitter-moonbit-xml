@@ -38,5 +38,5 @@ cp.spawnSync("npm", [
   "build",
   "--wasm",
   "--output",
-  path.join("web", "tree-sitter-moonbit.wasm"),
+  path.join("web", "tree-sitter-moonbitxml.wasm"),
 ]);
