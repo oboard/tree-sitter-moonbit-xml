@@ -36,7 +36,8 @@ fn app() {
               (xml_opening_element
                 (xml_identifier))
               (xml_content
-                (xml_text)
+                (xml_text
+                  (xml_text_literal))
                 (xml_text
                   (xml_interpolation
                     (expression
@@ -113,7 +114,8 @@ fn app() {
                   (xml_opening_element
                     (xml_identifier))
                   (xml_content
-                    (xml_text)
+                    (xml_text
+                      (xml_text_literal))
                     (xml_text
                       (xml_interpolation
                         (expression
@@ -134,7 +136,8 @@ fn app() {
                   (xml_opening_element
                     (xml_identifier))
                   (xml_content
-                    (xml_text)
+                    (xml_text
+                      (xml_text_literal))
                     (xml_text
                       (xml_interpolation
                         (expression
@@ -155,7 +158,8 @@ fn app() {
                   (xml_opening_element
                     (xml_identifier))
                   (xml_content
-                    (xml_text)
+                    (xml_text
+                      (xml_text_literal))
                     (xml_text
                       (xml_interpolation
                         (expression
@@ -194,6 +198,203 @@ fn app() {
                                                 (string_fragment
                                                   (unescaped_string_fragment)))))))))))))))))
                   (xml_closing_element
+                    (xml_identifier))))
+              (xml_closing_element
+                (xml_identifier)))))
+        (semicolon
+          (automatic_semicolon)))))
+  (semicolon
+    (automatic_semicolon)))
+
+=========================
+More types of data in XML
+=========================
+
+///|
+pub fn another_app() -> html {
+  let count = 5
+  let the_section = <section x="{literal\"}" y={ count.to_string() } />
+  let compare_result = count < 0 || count > 42
+  <container>
+    <article data={ count.to_string() }>
+      Hello { if compare_result { "Moon" } else { "Bit" } }
+      <span />
+      language{" "}
+    </article>
+    <article />
+  </container>
+}
+
+---
+
+(structure
+  (comment)
+  (structure_item
+    (function_definition
+      (visibility)
+      (function_identifier
+        (lowercase_identifier))
+      (parameters)
+      (return_type
+        (type
+          (apply_type
+            (qualified_type_identifier
+              (identifier
+                (lowercase_identifier))))))
+      (block_expression
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (pipeline_expression
+                (compound_expression
+                  (simple_expression
+                    (atomic_expression
+                      (literal
+                        (integer_literal)))))))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (xml_expression
+                (xml_self_closing_element
+                  (xml_identifier)
+                  (xml_attribute
+                    (xml_attribute_name)
+                    (xml_attribute_value
+                      (xml_attribute_content)))
+                  (xml_attribute
+                    (xml_attribute_name)
+                    (xml_attribute_value
+                      (xml_interpolation
+                        (expression
+                          (pipeline_expression
+                            (compound_expression
+                              (simple_expression
+                                (dot_apply_expression
+                                  (simple_expression
+                                    (qualified_identifier
+                                      (lowercase_identifier)))
+                                  (dot_identifier
+                                    (dot_lowercase_identifier)))))))))))))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (let_expression
+            (pattern
+              (simple_pattern
+                (lowercase_identifier)))
+            (expression
+              (pipeline_expression
+                (compound_expression
+                  (binary_expression
+                    (compound_expression
+                      (binary_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))
+                    (compound_expression
+                      (binary_expression
+                        (compound_expression
+                          (simple_expression
+                            (qualified_identifier
+                              (lowercase_identifier))))
+                        (compound_expression
+                          (simple_expression
+                            (atomic_expression
+                              (literal
+                                (integer_literal)))))))))))))
+        (semicolon
+          (automatic_semicolon))
+        (statement_expression
+          (expression
+            (xml_expression
+              (xml_opening_element
+                (xml_identifier))
+              (xml_content
+                (xml_expression
+                  (xml_opening_element
+                    (xml_identifier)
+                    (xml_attribute
+                      (xml_attribute_name)
+                      (xml_attribute_value
+                        (xml_interpolation
+                          (expression
+                            (pipeline_expression
+                              (compound_expression
+                                (simple_expression
+                                  (dot_apply_expression
+                                    (simple_expression
+                                      (qualified_identifier
+                                        (lowercase_identifier)))
+                                    (dot_identifier
+                                      (dot_lowercase_identifier)))))))))))
+                  (xml_content
+                    (xml_text
+                      (xml_text_literal))
+                    (xml_text
+                      (xml_interpolation
+                        (expression
+                          (if_expression
+                            (compound_expression
+                              (simple_expression
+                                (qualified_identifier
+                                  (lowercase_identifier))))
+                            (block_expression
+                              (statement_expression
+                                (expression
+                                  (pipeline_expression
+                                    (compound_expression
+                                      (simple_expression
+                                        (atomic_expression
+                                          (literal
+                                            (string_literal
+                                              (string_fragment
+                                                (unescaped_string_fragment)))))))))))
+                            (else_clause
+                              (block_expression
+                                (statement_expression
+                                  (expression
+                                    (pipeline_expression
+                                      (compound_expression
+                                        (simple_expression
+                                          (atomic_expression
+                                            (literal
+                                              (string_literal
+                                                (string_fragment
+                                                  (unescaped_string_fragment))))))))))))))))
+                    (xml_expression
+                      (xml_self_closing_element
+                        (xml_identifier)))
+                    (xml_text
+                      (xml_text_literal))
+                    (xml_text
+                      (xml_interpolation
+                        (expression
+                          (pipeline_expression
+                            (compound_expression
+                              (simple_expression
+                                (atomic_expression
+                                  (literal
+                                    (string_literal
+                                      (string_fragment
+                                        (unescaped_string_fragment))))))))))))
+                  (xml_closing_element
+                    (xml_identifier)))
+                (xml_expression
+                  (xml_self_closing_element
                     (xml_identifier))))
               (xml_closing_element
                 (xml_identifier)))))
