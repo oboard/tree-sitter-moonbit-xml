@@ -1268,34 +1268,37 @@ module.exports = grammar({
 
     attributes: $ => repeat1($.attribute),
 
-    xml_expression: $ => seq(
-      $.xml_opening_element,
-      $.xml_content,
-      $.xml_closing_element
+    xml_expression: $ => choice(
+      $.xml_self_closing_element,
+      seq(
+        $.xml_opening_element,
+        $.xml_content,
+        $.xml_closing_element,
+      ),
     ),
 
     xml_opening_element: $ => seq(
       '<',
       $.xml_identifier,
       repeat(seq(
-        $.xml_attribute
+        $.xml_attribute,
       )),
-      '>'
+      '>',
     ),
 
     xml_closing_element: $ => seq(
       '</',
       $.xml_identifier,
-      '>'
+      '>',
     ),
 
     xml_self_closing_element: $ => seq(
       '<',
       $.xml_identifier,
       repeat(seq(
-        $.xml_attribute
+        $.xml_attribute,
       )),
-      '/>'
+      '/>',
     ),
 
     xml_identifier: _ => /[a-zA-Z][a-zA-Z0-9_-]*/,
@@ -1303,47 +1306,38 @@ module.exports = grammar({
     xml_attribute: $ => seq(
       $.xml_attribute_name,
       '=',
-      $.xml_attribute_value
+      $.xml_attribute_value,
     ),
 
     xml_attribute_name: _ => /[a-zA-Z][a-zA-Z0-9_-]*/,
 
     xml_attribute_value: $ => choice(
-      seq('"', optional($.xml_attribute_content), '"'),
-      seq("'", optional($.xml_attribute_content), "'")
+      $.xml_interpolation,
+      seq('"', $.xml_attribute_content, '"'),
     ),
 
-    xml_attribute_content: $ => repeat1(choice(
-      token.immediate(/[^"'{}]+/),
-      $.xml_interpolation
-    )),
+    xml_attribute_content: _ => /([^"]|\\")*/,
 
-    xml_text: $ => prec.left(1, choice(
-      token.immediate(/[^<>{}/\s][^<>{}/]*/),
-      seq(
-        choice(
-          token.immediate(/[^<>{}/\s][^<>{}/]*/),
-          $.xml_interpolation
-        ),
-        repeat(choice(
-          token.immediate(/[^<>{}/][^<>{}/]*/),
-          $.xml_interpolation
-        ))
-      )
-    )),
+    xml_text: $ => prec.left(1,
+      repeat1(choice(
+        $.xml_text_literal,
+        $.xml_interpolation,
+      )),
+    ),
+
+    xml_text_literal: _ => /[^\s<>{}]([^<>{}]*[^\s<>{}])?/,
 
     xml_interpolation: $ => prec(PREC.xml_interpolation, seq(
       '{',
       $.expression,
-      '}'
+      '}',
     )),
 
     xml_content: $ => prec.right(PREC.xml_repeat,
       repeat1(choice(
         $.xml_expression,
         $.xml_text,
-        $.xml_self_closing_element
-      ))
+      )),
     ),
   },
 });

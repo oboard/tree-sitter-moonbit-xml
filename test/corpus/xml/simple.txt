@@ -27,7 +27,8 @@ fn app() -> Component {
               (xml_opening_element
                 (xml_identifier))
               (xml_content
-                (xml_text))
+                (xml_text
+                  (xml_text_literal)))
               (xml_closing_element
                 (xml_identifier)))))
         (semicolon
